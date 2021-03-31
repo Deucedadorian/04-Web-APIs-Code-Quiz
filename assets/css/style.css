@@ -1,0 +1,59 @@
+
+
+* {
+    font-family: 'Times New Roman', Times, serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: pink;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bolder;
+    margin: 10px 0px 10px 0px;
+    padding: 0px 10px 3px 10px;
+    border-bottom: 3px dashed plum;
+}
+
+a {
+    font-size: 1.6rem;
+    font-weight: bolder;
+    color: rgb(100, 51, 150);text-decoration: none;
+    text-shadow: 1px 1px 3px rgb(127, 82, 131);
+}
+
+main {
+    display: flex;
+    justify-content:end;
+    align-items: center;
+    flex-direction: column;
+    margin: 100px 0px 0px 0px;
+    line-height: 2rem;
+    flex-wrap: wrap;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+p {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+button {
+    font-size: 1.2rem;
+}
+
+@media screen and (max-width: 420px) {
+    h1 {
+        font-size: 2rem;
+    }
+}
