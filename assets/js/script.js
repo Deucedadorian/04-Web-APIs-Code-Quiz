@@ -45,6 +45,11 @@ let mainTitle = document.querySelector("#main-title");
 let mainPara = document.querySelector("#main-para");
 let startButton = document.querySelector("#start-button");
 let timerEl = document.querySelector("#seconds-left");
+let scoreEl = document.querySelector("#score");
+let gameOverCard = document.querySelector(".game-over-card");
+let saveScoreBttnEl = document.querySelector('#save-score');
+let cancelBttnEl = document.querySelector("#cancel");
+let initialsEl = document.querySelector('#initials')
 
 
 let initialElements = [mainTitle, mainPara, startButton];
@@ -96,7 +101,7 @@ function nextQuestion() {
     }
 
     // add event listener for buttons 
-    questionContainer.addEventListener("click", function (event) {
+    buttonSection.addEventListener("click", function (event) {
         // determines what happens when an answer is chosen
         questionContainer.remove();
         if (event.target.textContent === questionsList[i].correctAnswer) {
@@ -125,7 +130,7 @@ function nextQuestion() {
             // user to save their score and initials
             console.log(score);
             time = 0;
-
+            submitScore();
             return;
             
         }
@@ -149,7 +154,65 @@ function timerFunction() {
 }
 
 function submitScore() {
-    document.createElement("section");
+
+    // TODO: make gameover screen visible
+    gameOverCard.dataset.state = "visible";
+
+    // loops through to set the text content of the children of gameOverCard
+    // TODO: may want to figure out a way to not hard code the conditional of the loop (.length of array of gameOverChildren?).
+    for (let i = 0; i < 4; i++) {
+        gameOverCard.children[i].textContent = gameOverCard.children[i].dataset.text;
+        
+        scoreEl.textContent = score;
+    }
+
+    // creates the form element and it's children.
+    let formEl = document.createElement("form");
+    $(formEl).attr('method', 'POST');
+    gameOverCard.appendChild(formEl);
+
+    // input field
+    let inputEl = document.createElement("input");
+    $(inputEl).attr({ 'type': 'text', 'name': 'initials', 'id': 'initials', 'placeholder': 'Enter your initials' });
+    formEl.appendChild(inputEl);
+
+    // Cancel Button
+    let cancelBttnEl = document.createElement("button");
+    $(cancelBttnEl).attr('id', 'cancel');
+    cancelBttnEl.textContent = "Cancel";
+    formEl.appendChild(cancelBttnEl);
+
+    // Save Score button
+    let saveScoreBttnEl = document.createElement("button");
+    $(saveScoreBttnEl).attr('id', 'save-score');
+    saveScoreBttnEl.textContent = "Save Score";
+    formEl.appendChild(saveScoreBttnEl);
+
+    // TODO: put this event listener on tthe form
+    gameOverCard.addEventListener("click", function(event) {
+
+        let element = event.target;
+        if (element.matches('#cancel')) {
+            
+            // run function to initialize the starting display
+            gameOverCard.children.textContent= "";
+
+        } else if (element.matches('#save-score')) {
+            event.preventDefault();
+            
+            // create user object from submission
+            let savedScore = {
+                userScore: score,
+                userInitials: initialsEl.value.trim(),
+            };
+
+            // set new submission to local storage 
+            localStorage.setItem("savedScore", JSON.stringify(savedScore));
+        }
+    });
+    // console.log(JSON.parse(localStorage.getItem("savedScore")));
+ 
+
 }
 
 // event listener for start button
@@ -163,4 +226,3 @@ startButton.addEventListener("click", function () {
     nextQuestion();
     timerFunction();
 });
-
