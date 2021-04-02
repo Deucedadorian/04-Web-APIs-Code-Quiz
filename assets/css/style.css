@@ -21,7 +21,7 @@ a {
     font-size: 1.6rem;
     font-weight: bolder;
     color: rgb(100, 51, 150);text-decoration: none;
-    text-shadow: 1px 1px 3px rgb(127, 82, 131);
+    text-shadow: 1px 1px 3px rgb(119, 119, 119);
 }
 
 main {
@@ -36,8 +36,11 @@ main {
 
 h1 {
     font-size: 3rem;
-    margin-bottom: 10px;
+    padding: 0px 30px 10px 30px;
     font-weight: bold;
+    display: flex;
+    text-align: center;
+    line-height: 2.5rem;
 }
 
 p {
@@ -50,10 +53,30 @@ p {
 
 button {
     font-size: 1.2rem;
+    margin: 10px 10px 0px 10px;
+    padding: 10px;
+
 }
 
-@media screen and (max-width: 420px) {
+.question {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.button-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 440px) {
     h1 {
         font-size: 2rem;
+    }
+
+    .button-section {
+        width: 280px;
     }
 }

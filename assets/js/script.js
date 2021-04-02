@@ -33,7 +33,8 @@ let question4 = {
 
 // score and time variables
 let score = 0;
-let time = 75;
+let time = 30;
+defaultTime = time;
 
 // array of question objects
 let questionsList = [question1, question2, question3, question4];
@@ -43,14 +44,18 @@ let main = document.querySelector("main");
 let mainTitle = document.querySelector("#main-title");
 let mainPara = document.querySelector("#main-para");
 let startButton = document.querySelector("#start-button");
-let timerEl = document.querySelector(".timer");
+let timerEl = document.querySelector("#seconds-left");
+
 
 let initialElements = [mainTitle, mainPara, startButton];
 
 
 
-// sets index of what question is being asked to 0
+// sets index of which question is being asked to 0
 let i = 0;
+
+// set number of seconds left on timer
+timerEl.textContent = time;
 
 // create next question loop until all questions have been asked
 function nextQuestion() {
@@ -63,6 +68,11 @@ function nextQuestion() {
     let displayQuestion = document.createElement("h1");
     displayQuestion.textContent = questionsList[i].question;
     questionContainer.appendChild(displayQuestion);
+
+    // creates a section for the buttons and appends it to the question section
+    let buttonSection = document.createElement("section");
+    buttonSection.setAttribute("class", "button-section");
+    questionContainer.appendChild(buttonSection);
 
     // TODO: array of answers that are sorted randomly
     let choices = [
@@ -78,9 +88,11 @@ function nextQuestion() {
 
     // creates the buttons and assigns them text
     for (let x = 0; x < choices.length; x++) {
+
+        // creates the answer buttons and appends them to the button section
         let answerButtons = document.createElement("button");
         answerButtons.textContent = choices[x];
-        questionContainer.appendChild(answerButtons);
+        buttonSection.appendChild(answerButtons);
     }
 
     // add event listener for buttons 
@@ -91,6 +103,9 @@ function nextQuestion() {
             score++;
         } else {
             time = time - 10;
+            if (time < 0) {
+                time = 0;
+            }
         }
         console.log("score: " + score);
         console.log("time: " + time);
@@ -98,8 +113,8 @@ function nextQuestion() {
 
         // if the question asked is not the last question, 
         // the function is run again and the next question is displayed
-        if (i < questionsList.length - 1) {
-            console.log("i: " + i);
+        if (i < questionsList.length - 1 &&
+            time > 0) {
             i++;
             
             nextQuestion();
@@ -108,12 +123,33 @@ function nextQuestion() {
             score = score * time;
             // TODO: this will run the score function and allow the
             // user to save their score and initials
-            
+            console.log(score);
+            time = 0;
 
-            return score;
+            return;
             
         }
     });
+}
+
+function timerFunction() {
+    
+  // Sets interval in variable
+  var timerInterval = setInterval(function() {
+    time--;
+    timerEl.textContent = time;
+
+    if(time <= 0) {
+      // Stops execution of action at set interval
+      clearInterval(timerInterval);
+      timerEl.textContent = defaultTime;
+    }
+
+  }, 1000);
+}
+
+function submitScore() {
+    document.createElement("section");
 }
 
 // event listener for start button
@@ -125,5 +161,6 @@ startButton.addEventListener("click", function () {
     }
 
     nextQuestion();
+    timerFunction();
 });
 
