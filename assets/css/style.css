@@ -11,8 +11,9 @@ body {
 header {
     display: flex;
     justify-content: space-between;
+    align-items: flex-end;
     font-weight: bolder;
-    margin: 10px 0px 10px 0px;
+    margin: 10px 0px 100px 0px;
     padding: 0px 10px 3px 10px;
     border-bottom: 3px dashed plum;
 }
@@ -29,7 +30,7 @@ main {
     justify-content:end;
     align-items: center;
     flex-direction: column;
-    margin: 100px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     line-height: 2rem;
     flex-wrap: wrap;
 }
@@ -54,15 +55,14 @@ p {
     justify-content: center;
     text-align: center;
     font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
 
 
 button {
     font-size: 1.2rem;
-    margin: 10px 10px 0px 10px;
     padding: 10px;
-
 }
 
 .question {
@@ -74,8 +74,11 @@ button {
 
 .button-section {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
+    width: 370px;
+    height: 100px;
 }
 
 .gameOverCard {
@@ -90,8 +93,13 @@ form {
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
-    justify-content: center;
-    width: 260px;
+    justify-content: space-between;
+    width: auto;
+    height: 130px;
+}
+
+#initials {
+    text-align: center;
 }
 
 @media screen and (max-width: 440px) {
@@ -100,6 +108,8 @@ form {
     }
 
     .button-section {
-        width: 280px;
+        flex-direction: column;
+        height: 200px;
+        width: auto;
     }
 }
