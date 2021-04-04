@@ -34,7 +34,8 @@ let question4 = {
 // score and time variables
 let score = 0;
 let time = 30;
-defaultTime = time;
+let defaultTime = time;
+let timeMultiplier;
 
 // array of question objects
 let questionsList = [question1, question2, question3, question4];
@@ -117,7 +118,8 @@ function nextQuestion() {
             nextQuestion();
             return;
         } else {
-            let timeMultiplier = score * time
+            // calculate score
+            timeMultiplier = score * time;
             score = score + timeMultiplier;
             time = 0;
             // Display game over screen and allows the 
