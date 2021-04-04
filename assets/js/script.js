@@ -184,8 +184,8 @@ function submitScore() {
 
         let element = event.target;
         if (element.matches('#cancel')) {
-            // event.preventDefault();
-            // TODO: send user back to start if they click cancel
+            event.preventDefault();
+            location.reload();
 
             // run function to initialize the starting display
             gameOverCard.children.textContent = '';
