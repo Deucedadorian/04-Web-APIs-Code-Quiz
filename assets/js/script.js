@@ -1,34 +1,34 @@
+// Gets any saved scores if there are any.
+// If not, sets savedScores arrray to an empty string.
+let savedScores = localStorage.getItem('savedScores');
+if(savedScores === null) {
+    savedScores = [];
+} else {
+    savedScores = JSON.parse(savedScores);
+}
 // questions created
 let question1 = {
     question: 'this is where the question 1 is to be stowed',
     correctAnswer: 'answer1',
-    decoy1: 'decoy1',
-    decoy2: 'decoy1',
-    decoy3: 'decoy1',
+    choices: ['decoy1', 'decoy1', 'answer1', 'decoy1',],
 }
 
 let question2 = {
     question: 'this is where the question 2 is to be stowed',
     correctAnswer: 'answer2',
-    decoy1: 'decoy2',
-    decoy2: 'decoy2',
-    decoy3: 'decoy2',
+    choices: ['answer2', 'decoy2', 'decoy2', 'decoy2',],
 }
 
 let question3 = {
     question: 'this is where the question 3 is to be stowed',
     correctAnswer: 'answer3',
-    decoy1: 'decoy3',
-    decoy2: 'decoy3',
-    decoy3: 'decoy3',
+    choices: ['decoy3', 'decoy3', 'decoy3', 'answer3'],
 }
 
 let question4 = {
     question: 'this is where the question 4 is to be stowed',
     correctAnswer: 'answer4',
-    decoy1: 'decoy4',
-    decoy2: 'decoy4',
-    decoy3: 'decoy4',
+    choices: ['decoy4', 'decoy4', 'answer4', 'decoy4', ], 
 }
 
 // score and time variables
@@ -39,7 +39,7 @@ defaultTime = time;
 // array of question objects
 let questionsList = [question1, question2, question3, question4];
 
-// Make variables of and create array of the initially displayed elements 
+//variables of selected elements 
 let main = document.querySelector('main');
 let mainTitle = document.querySelector('#main-title');
 let mainPara = document.querySelector('#main-para');
@@ -64,7 +64,7 @@ timerEl.textContent = time;
 
 // create next question loop until all questions have been asked
 function nextQuestion() {
-    // create button section
+    // create question section
     let questionContainer = document.createElement('section');
     main.appendChild(questionContainer);
     questionContainer.setAttribute('class', 'question');
@@ -79,20 +79,11 @@ function nextQuestion() {
     buttonSection.setAttribute('class', 'button-section');
     questionContainer.appendChild(buttonSection);
 
-    // TODO: array of answers that are sorted randomly
-    let choices = [
-        questionsList[i].correctAnswer,
-        questionsList[i].decoy1,
-        questionsList[i].decoy2,
-        questionsList[i].decoy3,
-    ].sort(function () {
-        return Math.random();
-    });
-
-    
+    // array of answers
+    let choices = questionsList[i].choices
 
     // creates the buttons and assigns them text
-    for (let x = 0; x < choices.length; x++) {
+    for (let x = 0; x < questionsList[i].choices.length; x++) {
 
         // creates the answer buttons and appends them to the button section
         let answerButtons = document.createElement('button');
@@ -102,6 +93,7 @@ function nextQuestion() {
 
     // add event listener for buttons 
     buttonSection.addEventListener('click', function (event) {
+
         // determines what happens when an answer is chosen
         questionContainer.remove();
         if (event.target.textContent === questionsList[i].correctAnswer) {
@@ -116,8 +108,8 @@ function nextQuestion() {
         console.log('time: ' + time);
 
 
-        // if the question asked is not the last question, 
-        // the function is run again and the next question is displayed
+        // if the question asked is not the last question, and there is still time on
+        // the clock, the function is run again and the next question is displayed
         if (i < questionsList.length - 1 &&
             time > 0) {
             i++;
@@ -127,7 +119,7 @@ function nextQuestion() {
         } else {
             score = score * time;
             time = 0;
-            // TODO: this will run the score function and allow the
+            // Display game over screen and allows the 
             // user to save their score and initials
             submitScore();
             return;
@@ -144,7 +136,7 @@ function timerFunction() {
     timerEl.textContent = time;
 
     if(time <= 0) {
-      // Stops execution of action at set interval
+      // Stops execution of interval and resets time
       clearInterval(timerInterval);
       timerEl.textContent = defaultTime;
     }
@@ -154,11 +146,9 @@ function timerFunction() {
 
 function submitScore() {
 
-    // TODO: make gameover screen visible
     gameOverCard.dataset.state = 'visible';
 
     // loops through to set the text content of the children of gameOverCard
-    // TODO: may want to figure out a way to not hard code the conditional of the loop (.length of array of gameOverChildren?).
     for (let i = 0; i < 4; i++) {
         gameOverCard.children[i].textContent = gameOverCard.children[i].dataset.text;
         
@@ -189,16 +179,16 @@ function submitScore() {
 
     let initialsEl = document.querySelector('#initials');
 
-    // TODO: put this event listener on tthe form
+    // TODO: put this event listener on the form
     gameOverCard.addEventListener('click', function(event) {
-
-        // create user object from submission
 
         let element = event.target;
         if (element.matches('#cancel')) {
-            
+            // event.preventDefault();
+            // TODO: send user back to start if they click cancel
+
             // run function to initialize the starting display
-            gameOverCard.children.textContent= '';
+            gameOverCard.children.textContent = '';
 
         } else if (element.matches('#save-score')) {
             event.preventDefault();
@@ -207,11 +197,38 @@ function submitScore() {
                 userScore: score,
                 userInitials: initialsEl.value.trim()
             };
+            console.log(savedScore.userInitials);
 
+            if (savedScore.userInitials === '') {
+                alert("Invalid input")
+                return;
+            }
+
+            savedScores.push(savedScore);
             // set new submission to local storage 
-            localStorage.setItem('savedScore', JSON.stringify(savedScore));
+            localStorage.setItem('savedScores', JSON.stringify(savedScores));
+
+            // removes save score button and replaces it with text
+            let savedh2 = document.createElement('h2');
+            savedh2.setAttribute('id', 'scoreCardH2');
+            savedh2.textContent = 'Score Saved!';
+            formEl.replaceChild(savedh2, formEl.children[1]);
+
+            // changes text in cancel button to home
+            cancelBttnEl.textContent = 'home';
+
+            highScoresBttn = document.createElement('button');
+            $(highScoresBttn).attr({'id': 'hs-bttn', 'type': 'button', });
+            highScoresBttn.textContent = 'view High Scores';
+            formEl.appendChild(highScoresBttn);
+
+            highScoresBttn.onclick = function () {
+                location.href = "./highscores.html";
+            };
+
         }
     });
+
 }
 
 // event listener for start button
