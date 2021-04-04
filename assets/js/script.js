@@ -117,7 +117,8 @@ function nextQuestion() {
             nextQuestion();
             return;
         } else {
-            score = score * time;
+            let timeMultiplier = score * time
+            score = score + timeMultiplier;
             time = 0;
             // Display game over screen and allows the 
             // user to save their score and initials
