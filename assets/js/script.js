@@ -8,37 +8,68 @@ if(savedScores === null) {
 }
 // questions created
 let question1 = {
-    question: 'this is where the question 1 is to be stowed',
-    correctAnswer: 'answer1',
-    choices: ['decoy1', 'decoy1', 'answer1', 'decoy1',],
+    question: 'To make your website mobile friendly, you can make your website',
+    correctAnswer: 'Responsive',
+    choices: [
+        'Responsive',
+        'Reactive',
+        'Fast Loading',
+        'Light',
+    ],
 }
 
 let question2 = {
-    question: 'this is where the question 2 is to be stowed',
-    correctAnswer: 'answer2',
-    choices: ['answer2', 'decoy2', 'decoy2', 'decoy2',],
+    question: 'What does CSS stand for',
+    correctAnswer: 'Cascading Style Sheets',
+    choices: [
+        'Current Style Sheets',
+        'Current Sheets Style',
+        'Cascading Style Sheets',
+        'Cascading Sheets Style',
+    ],
 }
 
 let question3 = {
-    question: 'this is where the question 3 is to be stowed',
-    correctAnswer: 'answer3',
-    choices: ['decoy3', 'decoy3', 'decoy3', 'answer3'],
+    question: 'Which of the following statements is false',
+    correctAnswer: 'You can make a website without using HTML',
+    choices: [
+        'You can make a website without using HTML',
+        'You can make a website without using PHP',
+        'You can make a website without using CSS',
+        'You can make a website without using Javascript'
+    ],
 }
 
 let question4 = {
-    question: 'this is where the question 4 is to be stowed',
-    correctAnswer: 'answer4',
-    choices: ['decoy4', 'decoy4', 'answer4', 'decoy4', ], 
+    question: 'What is WordPress',
+    correctAnswer: 'It is a CMS',
+    choices: [
+        'It is a software used to press text',
+        'It is a text formatting software',
+        'It is a CMS',
+        'It is mail service',
+    ], 
+}
+
+let question5 = {
+    question: 'SQL stands for',
+    correctAnswer: 'Structured Query Language',
+    choices: [
+        'Structured Query Language',
+        'Statistical Query Language',
+        'Superior Questions Lot',
+        'Standard Query Lot',
+    ],
 }
 
 // score and time variables
 let score = 0;
-let time = 30;
+let time = 60;
 let defaultTime = time;
 let timeMultiplier;
 
 // array of question objects
-let questionsList = [question1, question2, question3, question4];
+let questionsList = [question1, question2, question3, question4, question5];
 
 //variables of selected elements 
 let main = document.querySelector('main');
@@ -58,7 +89,7 @@ let initialElements = [mainTitle, mainPara, startButton];
 
 
 // sets index of which question is being asked to 0
-let i = 0;
+let questionIndex = 0;
 
 // set number of seconds left on timer
 timerEl.textContent = time;
@@ -72,7 +103,7 @@ function nextQuestion() {
 
     // display question
     let displayQuestion = document.createElement('h1');
-    displayQuestion.textContent = questionsList[i].question;
+    displayQuestion.textContent = questionsList[questionIndex].question;
     questionContainer.appendChild(displayQuestion);
 
     // creates a section for the buttons and appends it to the question section
@@ -81,10 +112,10 @@ function nextQuestion() {
     questionContainer.appendChild(buttonSection);
 
     // array of answers
-    let choices = questionsList[i].choices
+    let choices = questionsList[questionIndex].choices
 
     // creates the buttons and assigns them text
-    for (let x = 0; x < questionsList[i].choices.length; x++) {
+    for (let x = 0; x < questionsList[questionIndex].choices.length; x++) {
 
         // creates the answer buttons and appends them to the button section
         let answerButtons = document.createElement('button');
@@ -97,7 +128,7 @@ function nextQuestion() {
 
         // determines what happens when an answer is chosen
         questionContainer.remove();
-        if (event.target.textContent === questionsList[i].correctAnswer) {
+        if (event.target.textContent === questionsList[questionIndex].correctAnswer) {
             score++;
         } else {
             time = time - 10;
@@ -111,15 +142,15 @@ function nextQuestion() {
 
         // if the question asked is not the last question, and there is still time on
         // the clock, the function is run again and the next question is displayed
-        if (i < questionsList.length - 1 &&
+        if (questionIndex < questionsList.length - 1 &&
             time > 0) {
-            i++;
+            questionIndex++;
             
             nextQuestion();
             return;
         } else {
             // calculate score
-            timeMultiplier = score * time;
+            timeMultiplier = score * time
             score = score + timeMultiplier;
             time = 0;
             // Display game over screen and allows the 
@@ -149,23 +180,17 @@ function timerFunction() {
 
 function submitScore() {
 
-    gameOverCard.dataset.state = 'visible';
+    gameOverCard.style.display = 'block';
 
-    // loops through to set the text content of the children of gameOverCard
-    for (let i = 0; i < 4; i++) {
-        gameOverCard.children[i].textContent = gameOverCard.children[i].dataset.text;
-        
-        scoreEl.textContent = score;
-    }
+    scoreEl.textContent = score;
 
     // creates the form element and it's children.
     let formEl = document.createElement('form');
-    $(formEl).attr('method', 'POST');
     gameOverCard.appendChild(formEl);
 
     // input field
     let inputEl = document.createElement('input');
-    $(inputEl).attr({ 'type': 'text', 'name': 'initials', 'id': 'initials', 'placeholder': 'Enter your initials'});
+    $(inputEl).attr({ 'type': 'text', 'id': 'initials', 'placeholder': 'Enter your initials'});
     formEl.appendChild(inputEl);
 
     // Save Score button
