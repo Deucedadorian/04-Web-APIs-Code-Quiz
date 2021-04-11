@@ -136,9 +136,6 @@ function nextQuestion() {
                 time = 0;
             }
         }
-        console.log('score: ' + score);
-        console.log('time: ' + time);
-
 
         // if the question asked is not the last question, and there is still time on
         // the clock, the function is run again and the next question is displayed
