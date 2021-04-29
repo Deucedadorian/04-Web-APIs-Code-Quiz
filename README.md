@@ -10,6 +10,12 @@ https://deucedadorian.github.io/04-Web-APIs-Code-Quiz/
 ## Usage
 Click the start button to begin the quiz. Read the question presented and click the answer. If you chose correctly, a point is added to you score. If you chose incorrectly, time is deducted. Once the quiz is over, either by running out of time or answering the last question, an end screen is displayed with the your score. Input you initials where prompted and click the save score button. you can retake the quiz until you are happy with you score and then check the leaderboard to see all of your saved scores!
 
+## Technologies Used
+
+* HTML
+* CSS
+* JavaScript
+
 ## Credits
 
 questions and answers from: 
