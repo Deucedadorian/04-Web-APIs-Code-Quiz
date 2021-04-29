@@ -35,6 +35,14 @@ https://piccalil.li/blog/a-modern-css-reset
 
 ![Screenshot of deployed app](./assets/images/deucedadorian.github.io_04-Web-APIs-Code-Quiz_highscores.html.png)
 
+## Contact
+
+### email
+
+Dylan Cole <logboarddjc@gmail.com>
+
+
+
 ## License
 
 MIT License
