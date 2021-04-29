@@ -15,6 +15,7 @@ Click the start button to begin the quiz. Read the question presented and click 
 * HTML
 * CSS
 * JavaScript
+* jQuery
 
 ## Credits
 
